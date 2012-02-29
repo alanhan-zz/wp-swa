@@ -226,10 +226,15 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
             <input id="<?php echo $this->get_field_id('display-title'); ?>" name="<?php echo $this->get_field_name('display-title'); ?>" type="checkbox" <?php checked($display_title); ?> />
             <label for="<?php echo $this->get_field_id('display-title'); ?>"><?php _e('Display title','section-widget'); ?></label>
-			<!-- CHANGES!!! -->
-			<input id="<?php echo $this->get_field_id('accordion'); ?>" name="<?php echo $this->get_field_name('accordion'); ?>" type="checkbox" <?php checked($accordion); ?> />
-            <label for="<?php echo $this->get_field_id('accordion'); ?>"><?php _e('Use Accordion','section-widget'); ?></label>
         </p>
+		<!-- CHANGES!!! -->
+		<p>
+			<input id="<?php echo $this->get_field_id('accordion'); ?>" name="<?php echo $this->get_field_name('accordion'); ?>" type="checkbox" <?php checked($accordion); ?> />
+	        <label for="<?php echo $this->get_field_id('accordion'); ?>"><?php _e('Use Accordion','section-widget'); ?></label>
+			
+			<input id="<?php echo $this->get_field_id('collapsible'); ?>" name="<?php echo $this->get_field_name('collapsible'); ?>" type="checkbox" disabled="disabled" <?php checked($collapsible); ?> />
+			<label for="<?php echo $this->get_field_id('collapsible'); ?>"><?php _e('Collapsible?','section-widget'); ?></label>
+		</p>
 <?php   
         olt_checklist_pane(array(
             'id' => $this->get_field_id('conditions'),
