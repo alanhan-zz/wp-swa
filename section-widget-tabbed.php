@@ -67,6 +67,7 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
 					$content .= "<div id=\"{$widget_id}-tab-{$id}\">".do_shortcode($tab['body']).'</div>';
 				}
 			}
+			// ***
 			
             $heightFixClass = ($heightfix)? ' class="swt-height-fix"' : '';
             
@@ -76,6 +77,7 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
 			} else {
 				$html = "<ul{$heightFixClass}>".$list.'</ul>'.$content;
 			}
+			// ***
             
             
             echo $before_widget;
@@ -88,10 +90,15 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
 			
 			//CHANGES
 			if ($instance['accordion']) {
-				echo '<div class="swt-outter"><div class="swt-accordion-wrapper">';
+				if ($instance['collapsible']) {
+					echo '<div class="swt-outter"><div class="swt-accordion-wrapper-collapsible">';
+				} else {
+					echo '<div class="swt-outter"><div class="swt-accordion-wrapper">'; 
+				}		
 			} else {
 				echo '<div class="swt-outter"><div class="swt-wrapper">';
 			}
+			// ***
             
             echo apply_filters('widget_text', $html);
             echo '</div></div>';
@@ -114,7 +121,8 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
         $instance['display-title'] = (bool) $new_instance['display-title'];
 		// CHANGES!!!
         $instance['accordion'] = (bool) $new_instance['accordion'];
-
+		$instance['collapsible'] = (bool) $new_instance['collapsible'];
+		//***
         $instance['conditions'] = is_array($new_instance['conditions'])?
             $new_instance['conditions'] : array();
         
@@ -184,6 +192,8 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
             'display-title' => true,
 			// CHANGES!!!
 			'accordion' => false,
+			'collapsible' => false,
+			// ***
             'tabs' => array(),
             'conditions' => array(
                 'special-pages' => array(),
@@ -207,6 +217,8 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
         $display_title = (bool) $instance['display-title'];
 		// CHANGES!!!
 		$accordion = (bool) $instance['accordion'];
+		$collapsible = (bool) $instance['collapsible'];
+		// ***
         $special_pages = $instance['conditions']['special-pages'];
         $pages = $instance['conditions']['pages'];
         $categories = $instance['conditions']['categories'];
@@ -221,6 +233,7 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
 
 		
 ?>
+
         <p>
             <label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:','section-widget'); ?></label>
             <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" />
@@ -229,12 +242,15 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
         </p>
 		<!-- CHANGES!!! -->
 		<p>
-			<input id="<?php echo $this->get_field_id('accordion'); ?>" name="<?php echo $this->get_field_name('accordion'); ?>" type="checkbox" <?php checked($accordion); ?> />
+			<input id="<?php echo $this->get_field_id('accordion'); ?> accordion-cbx" name="<?php echo $this->get_field_name('accordion'); ?>" type="checkbox" <?php checked($accordion); ?>  />
 	        <label for="<?php echo $this->get_field_id('accordion'); ?>"><?php _e('Use Accordion','section-widget'); ?></label>
 			
-			<input id="<?php echo $this->get_field_id('collapsible'); ?>" name="<?php echo $this->get_field_name('collapsible'); ?>" type="checkbox" disabled="disabled" <?php checked($collapsible); ?> />
+			<input id="<?php echo $this->get_field_id('collapsible'); ?> collapsible-cbx" name="<?php echo $this->get_field_name('collapsible'); ?>" type="checkbox" <?php checked($collapsible); ?> />
+			
 			<label for="<?php echo $this->get_field_id('collapsible'); ?>"><?php _e('Collapsible?','section-widget'); ?></label>
 		</p>
+		<!-- *** -->
+
 <?php   
         olt_checklist_pane(array(
             'id' => $this->get_field_id('conditions'),
@@ -288,6 +304,7 @@ class OLT_Tabbed_Section_Widget extends WP_Widget {
                 OLTChecklistPaneInit(jQuery('#<?php echo $this->get_field_id('conditions-wrapper'); ?>'));
             if(typeof OLTSWTInit == 'function')
                 OLTSWTInit(jQuery('#<?php echo $this->get_field_id('designer-main') ?>'));
+
         </script>
 <?php
     }
